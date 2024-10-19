@@ -199,35 +199,34 @@ ER --> (1. Consultar documentación de vehículo)
 (1. Consultar documentación de vehículo) ..> (2. Verificar documentación) : <<include>>
 (2. Verificar documentación) <-- DNRA 
 ER --> (3. Consultar turno)
-ER --> (4. Generar y emitir comprobante de revisión)
 
-C --> (5. Registrar inicialización de VTV)
-(5. Registrar inicialización de VTV) <.. (6. Registrar vehículo) : <<extend>> 
-C --> (7. Registrar cobro)
-(7. Registrar cobro) ..> (8. Generar y emitir comprobante de pago) : <<include>>
-C --> (9. Generar y emitir informe de liquidación)
+C --> (4. Registrar inicialización de VTV)
+(5. Registrar inicialización de VTV) <.. (. Registrar vehículo) : <<extend>> 
+C --> (6. Registrar cobro)
+(6. Registrar cobro)
+C --> (7. Generar y emitir informe de liquidación)
 
-I --> (10. Registrar mediciones de máquinas)
-I --> (11. Consultar mediciones)
-I --> (12. Consultar defectos visuales)
-I --> (13. Registrar defectos visuales)
+I --> (8. Registrar mediciones de máquinas)
+I --> (9. Consultar mediciones)
+I --> (10. Consultar defectos visuales)
+I --> (11. Registrar defectos visuales)
 
-S --> (14. Registrar finalización de VTV) 
-(14. Registrar finalización de VTV) <.. (15. Registrar consumición de oblea)  : <<extend>>
-S --> (16. Registrar cancelación oblea)
+S --> (12. Registrar finalización de VTV) 
+(12. Registrar finalización de VTV) <.. (13. Registrar consumición de oblea)  : <<extend>>
+S --> (14. Registrar cancelación oblea)
 
-G --> (17. Generar y emitir reporte de vehículos que realizaron la VTV en un lapso de tiempo)
-G --> (18. Generar y emitir historial de vehículo)
-G --> (19. Generar y emitir reporte mensual de cobros)
+G --> (15. Generar y emitir reporte de vehículos que realizaron la VTV en un lapso de tiempo)
+G --> (16. Generar y emitir historial de vehículo)
+G --> (17. Generar y emitir reporte mensual de cobros)
 
 @enduml
 
 @startuml Diagrama_casos_de_uso_de_soporte
 left to right direction
 :Encargado de Sistemas: as IT
-IT --> (20. Registrar empleado)
-IT --> (21. Registrar tarifa)
-IT --> (22. Actualizar tarifas)
-IT --> (23. Registrar sección)
-IT --> (24. Registrar oblea)
+IT --> (18. Registrar empleado)
+IT --> (19. Registrar tarifa)
+IT --> (20. Actualizar tarifas)
+IT --> (21. Registrar sección)
+IT --> (22. Registrar oblea)
 @enduml
