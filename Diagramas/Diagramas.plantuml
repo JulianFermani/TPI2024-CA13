@@ -226,6 +226,7 @@ EC <|-- I
 EC <|-- S
 
 EH --> (16. Generar y emitir historial de vehículo)
+EH --> (19. Consultar revisiones)
 EH <|-- I
 EH <|-- S
 EH <|-- G
@@ -234,7 +235,7 @@ EH <|-- G
 @startuml Diagrama_casos_de_uso_de_soporte
 left to right direction
 :Encargado de Sistemas: as IT
-IT --> (19. Registrar empleado)
+IT --> (20. Registrar empleado)
 IT --> (21. Registrar tarifa)
 IT --> (22. Actualizar tarifas)
 IT --> (23. Registrar sección)
