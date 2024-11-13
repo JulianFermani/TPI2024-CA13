@@ -1,0 +1,232 @@
+@startuml Diagrama_de_clases
+scale 1
+class Revisión #ffff91{
+    - númeroDeRevisión
+    - fechaRealización
+    - pago: Pago
+    - vehículo: Vehículo
+    - empleado: Empleado
+    - mediciones: Medición
+    - defectoVisual: DefectoDeRevisión
+    - resultado: EstadoResultado
+    - fechaVencimiento
+    - oblea: Oblea
+    + crear()
+    + mostrar()
+    + generarComprobanteRevisión()
+    + emitirComprobanteRevisión()
+    + conocerVehículo()
+    + conocerDefectoDeRevisión()
+    + conocerEmpleado()
+    + conocerEstadoResultado()
+    + conocerMedición()
+    + conocerPago()
+    + conocerOblea()
+    + emitirInforme()
+}
+
+class Pago #ffff91{
+    - fecha
+    - nroFactura
+    - cajero: Empleado
+    - cliente: Cliente
+    - tarifa: Tarifa
+    - subtotal
+    - iva
+    - total
+    - estado: EstadoPago
+    + crear()
+    + mostrar()
+    + generarComprobantePago()
+    + emitirComprobantePago()
+    + conocerTarifa()
+    + conocerEmpleado()
+    + conocerCliente()
+    + conocerEstadoPago()
+    + calcularIVA()
+    + calcularTotal()
+    + actualizarEstado()
+}
+
+class EstadoResultado{
+    - nombre
+    + crear()
+    + mostrar()
+}
+note bottom of EstadoResultado: Aprobado \nAprobado condicional \nRechazado
+
+class Medición{
+    - nombre
+    - descripción
+    - resultado
+    + crear()
+    + mostrar()
+}
+
+class DefectoDeRevisión{
+    - defecto: DefectoVisual
+    - gravedad
+    + crear()
+    + mostrar()
+    + conocerDefectoVisual()
+}
+
+class DefectoVisual{
+    - nombre
+    - descripción
+    + crear()
+    + mostrar()
+}
+
+class Vehículo{
+    - marca
+    - modelo
+    - patente
+    - númeroChasis
+    - añoFabricación
+    - peso
+    - cliente: Cliente
+    + crear()
+    + mostrar()
+    + conocerCliente()
+}
+
+class Empleado{
+    - legajo
+    - rol
+    + crear()
+    + mostrar()
+}
+
+class Persona{
+    - nombre
+    - apellido
+    - email
+    - teléfono
+    - domicilio
+    - tipoDocumento: TipoDocumento
+    - documento
+    + crear()
+    + mostrar()
+    + conocerTipoDocumento()
+}
+
+class TipoDocumento{
+    - nombre
+    + crear()
+    + mostrar()
+}
+
+class Cliente{
+    - númeroCliente
+    - CUIT
+    + crear()
+    + mostrar()
+    + validarCliente()
+}
+
+class EstadoPago{
+    - nombre
+    + crear()
+    + mostrar()
+    + tomarNombre()
+    + mostrarNombre()
+}
+
+note left of EstadoPago: Los setters y getters de esta clase \nson extensibles a todas las \nclases del diagrama.
+note left of EstadoPago: Pendiente \nPagada \nAnulada
+
+class Tarifa{
+    - descripción
+    - precio
+    - fecha
+    + crear()
+    + mostrar()
+    + definirTarifa()
+    + actualizarTarifa()
+}
+
+class Oblea{
+    - númeroOblea
+    - estado: EstadoOblea
+    - fechaAlta
+    + crear()
+    + mostrar()
+    + cancelarOblea()
+    + conocerEstadoOblea()
+}
+
+class EstadoOblea{
+    - nombre
+    + crear()
+    + mostrar()
+}
+
+note left of EstadoOblea: Stock \nCancelada \nRegistrada
+
+note "Este diagrama ya viene con un turno \npor eso no está modelado" as N1
+
+Revisión ---> "0..*" DefectoDeRevisión
+Revisión --> "1  " Medición
+Revisión --> "  1" EstadoResultado
+Revisión -- "   0..1" Pago  
+Revisión --> "    1" Empleado
+Revisión --> "1" "Vehículo"
+Revisión --> "1  " "Oblea"
+DefectoDeRevisión --> "1" DefectoVisual
+Pago --> "1  " Tarifa
+Pago --> "      1" Empleado
+Pago --> "1" EstadoPago
+Pago --> "     1" Cliente
+Vehículo --> "1  " Cliente
+Cliente --|> Persona
+Empleado --|>Persona 
+Persona --> "1" TipoDocumento
+Oblea --> "1  " EstadoOblea
+
+@enduml
+
+@startuml Diagrama_de_casos_de_uso_esenciales
+left to right direction
+:Gerente: as G
+:Supervisor: as S
+:Inspector: as I
+:Cajero: as C
+:Encargado de Recepción: as ER
+:DNRA: as DNRA
+
+ER --> (1. Consultar documentación de vehículo)
+(1. Consultar documentación de vehículo) ..> (2. Verificar documentación) : <<include>>
+(2. Verificar documentación) <-- DNRA 
+ER --> (3. Consultar turno)
+
+C --> (4. Registrar inicialización de VTV)
+(4. Registrar inicialización de VTV) <.. (. Registrar vehículo) : <<extend>> 
+C --> (6. Registrar cobro)
+(6. Registrar cobro)
+C --> (7. Generar y emitir informe de liquidación)
+
+I --> (8. Registrar mediciones de máquinas)
+I --> (9. Consultar mediciones)
+I --> (10. Consultar defectos visuales)
+I --> (11. Registrar defectos visuales)
+
+S --> (12. Registrar finalización de VTV) 
+(12. Registrar finalización de VTV) <.. (13. Registrar consumición de oblea)  : <<extend>>
+S --> (14. Registrar cancelación oblea)
+
+G --> (15. Generar y emitir reporte de vehículos que realizaron la VTV en un lapso de tiempo)
+G --> (16. Generar y emitir historial de vehículo)
+G --> (17. Generar y emitir reporte mensual de cobros)
+
+@enduml
+
+@startuml Diagrama_casos_de_uso_de_soporte
+left to right direction
+:Encargado de Sistemas: as IT
+IT --> (18. Registrar empleado)
+IT --> (19. Registrar tarifa)
+IT --> (20. Actualizar tarifas)
+IT --> (21. Registrar sección)
+IT --> (22. Registrar oblea)
+@enduml
