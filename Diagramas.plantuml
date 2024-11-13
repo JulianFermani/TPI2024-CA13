@@ -174,7 +174,7 @@ Revisión --> "    1" Empleado
 Revisión --> "1" "Vehículo"
 Revisión --> "1  " "Oblea"
 DefectoDeRevisión --> "1" DefectoVisual
-Pago --> "1  " Tarifa
+Pago --> "1 " Tarifa
 Pago --> "      1" Empleado
 Pago --> "1" EstadoPago
 Pago --> "     1" Cliente
@@ -190,20 +190,22 @@ Oblea --> "1  " EstadoOblea
 left to right direction
 :Gerente: as G
 :Supervisor: as S
+:Encargado de Historial: as EH
 :Inspector: as I
 :Cajero: as C
+:Encargado de Cancelación: as EC
 :Encargado de Recepción: as ER
 :DNRA: as DNRA
 
-ER --> (1. Consultar documentación de vehículo)
-(1. Consultar documentación de vehículo) ..> (2. Verificar documentación) : <<include>>
-(2. Verificar documentación) <-- DNRA 
-ER --> (3. Consultar turno)
+ER --> (1. Verificar documentación)
+(1. Verificar documentación)  --> DNRA 
+ER --> (2. Consultar turno)
 
-C --> (4. Registrar inicialización de VTV)
-(4. Registrar inicialización de VTV) <.. (. Registrar vehículo) : <<extend>> 
-C --> (6. Registrar cobro)
-(6. Registrar cobro)
+C --> (3. Registrar inicialización de VTV)
+(3. Registrar inicialización de VTV) <.. (4. Registrar vehículo) : <<extend>> 
+(3. Registrar inicialización de VTV) <.. (5. Registrar cobro) : <<extend>>
+(5. Registrar cobro) ..> (6. Generar y emitir comprobante de pago) : <<include>> 
+
 C --> (7. Generar y emitir informe de liquidación)
 
 I --> (8. Registrar mediciones de máquinas)
@@ -215,18 +217,26 @@ S --> (12. Registrar finalización de VTV)
 (12. Registrar finalización de VTV) <.. (13. Registrar consumición de oblea)  : <<extend>>
 S --> (14. Registrar cancelación oblea)
 
-G --> (15. Generar y emitir reporte de vehículos que realizaron la VTV en un lapso de tiempo)
-G --> (16. Generar y emitir historial de vehículo)
+G --> (15. Generar y emitir reporte de vehículos \nque realizaron la VTV en un lapso de tiempo)
 G --> (17. Generar y emitir reporte mensual de cobros)
 
+EC --> (18. Registrar cancelación de VTV)
+EC <|-- C
+EC <|-- I
+EC <|-- S
+
+EH --> (16. Generar y emitir historial de vehículo)
+EH <|-- I
+EH <|-- S
+EH <|-- G
 @enduml
 
 @startuml Diagrama_casos_de_uso_de_soporte
 left to right direction
 :Encargado de Sistemas: as IT
-IT --> (18. Registrar empleado)
-IT --> (19. Registrar tarifa)
-IT --> (20. Actualizar tarifas)
-IT --> (21. Registrar sección)
-IT --> (22. Registrar oblea)
+IT --> (19. Registrar empleado)
+IT --> (21. Registrar tarifa)
+IT --> (22. Actualizar tarifas)
+IT --> (23. Registrar sección)
+IT --> (24. Registrar oblea)
 @enduml
